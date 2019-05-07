@@ -24,7 +24,7 @@ def bleep(name = 'bleep'):
 
 
 
-@bottle.get('/login') # or @route('/login')
+@app.get('/login') # or @route('/login')
 def login():
     return '''
         <form action="/login" method="post">
@@ -42,7 +42,7 @@ def check_login(user, pwd):
     else:
         return False
 
-@bottle.post('/login') # or @route('/login', method='POST')
+@app.post('/login') # or @route('/login', method='POST')
 def do_login():
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
