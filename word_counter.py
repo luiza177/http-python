@@ -1,7 +1,5 @@
 import re
 
-# TODO: create class for word analysis w/ word_dict, word_count
-
 """ Creates sorted list of lower-case words from title. """
 def prepare_for_analysis(form_text):
 	text = form_text.split()

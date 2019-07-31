@@ -1,19 +1,30 @@
 import requests
 import json
 
+class NotFound(Exception):
+	pass
+
+class BadRequest(Exception):
+	pass
+
+class UnexpectedError(Exception):
+	pass
+
 data = { 'text' : 'guinho guinho lucy bebe lucy thor thor pancho enter your text'}
 headers = {'Accept': 'application/json',
             'Content-Type': 'application/json'}
 url = 'http://localhost:8080/contagem'
 
-# TODO: create exception classes for status codes. see other projects
 try:
     response = requests.post(url, headers=headers, data=json.dumps(data))
     if response.status_code == 200:
         print(response.text)
-    elif response.status_code == 404:
-        print("404 - Not Found")
-    else:
-        print(response.status_code + ": An error occurred.")
-except:
-    print("no go.")
+    response.raise_for_status()
+except requests.HTTPError as e:
+    print(e)
+except requests.ConnectTimeout as e:
+    # print(e)
+    print("Your connection was timed out.")
+except requests.ConnectionError as e:
+    # print(e)
+    print("Make sure you are connected to the internet.")
