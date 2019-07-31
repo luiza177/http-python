@@ -1,7 +1,6 @@
 import bottle
 import word_counter
 
-
 app = bottle.Bottle()
 
 @app.get('/contagem')
