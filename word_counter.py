@@ -2,18 +2,20 @@ import re
 
 """ Creates sorted list of lower-case words from title. """
 def prepare_for_analysis(form_text):
-	text = form_text.split()
-	for word in range(len(text)):
-		text[word] = text[word].lower()
-		text[word] = re.sub(r'\W+', '', text[word]) # Removes non-alphanum
-	text.sort()
-	return text
+    text = form_text.split()
+    for word in range(len(text)):
+        text[word] = text[word].lower()
+        text[word] = re.sub(r'\W+', '', text[word]) # Removes non-alphanum
+        if text[word] is '':
+            text.pop(word)
+    text.sort()
+    return text
 
 def word_analysis(form_text):
     words = prepare_for_analysis(form_text)
     word_dict = {}
     for word in words: # dict creation
-        count = words.count(word) # counts occurances of word in the words/title (list)
+        count = words.count(word)
         if word not in word_dict:
             word_dict[word] = count
     return word_dict
