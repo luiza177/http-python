@@ -5,7 +5,7 @@ from word_counter_client import Word_Counter_Client
 class TestWordCounterClient(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.client = Word_Counter_Client({ 'text' : 'bebezinho bol' })
     
     def tearDown(self):
         pass
@@ -15,19 +15,13 @@ class TestWordCounterClient(unittest.TestCase):
             mock_post.return_value.ok = True
             mock_post.return_value.text = "Bebebol"
 
-            client = Word_Counter_Client({ 'text' : 'bebezinho bol' })
-            response = client.post_request()
-            self.assertEqual(response, 'Bebebol')
+            response = self.client.post_request()
+            self.assertEqual(response, "Bebebol")
 
             mock_post.return_value.ok = False
-            response = client.post_request()
-            self.assertEqual(response, 'POST Request failed!')
+            response = self.client.post_request()
+            self.assertEqual(response, "POST Request failed!")
             
-
-
-
-
-
 
 if __name__ == '__main__':
     unittest.main()
