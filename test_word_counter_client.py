@@ -10,18 +10,21 @@ class TestWordCounterClient(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_post_word_counter_api(self):
+    def test_post_word_counter_success(self):
         with patch('word_counter_client.requests.post') as mock_post:
             mock_post.return_value.ok = True
-            mock_post.return_value.text = "Bebebol"
+            mock_post.return_value.json.return_value = { "Bebebol" : 1 }
 
             response = self.client.post_request()
-            self.assertEqual(response, "Bebebol")
+            self.assertEqual(response["Bebebol"], 1 )
 
+    def test_post_word_counter_fail(self):
+        with patch('word_counter_client.requests.post') as mock_post:
             mock_post.return_value.ok = False
+
             response = self.client.post_request()
-            self.assertEqual(response, "POST Request failed!")
-            
+            self.assertTrue("ERROR" in response)
+
 
 if __name__ == '__main__':
     unittest.main()

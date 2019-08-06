@@ -15,18 +15,19 @@ class Word_Counter_Client():
         return cls(data = { 'text' : 'guinho guinho lucy bebe lucy thor thor pancho enter your text'})
 
     def post_request(self):
+        result_dict = {}
         try:
             response = requests.post(self._url, headers=self._headers, data=json.dumps(self.data))
             if response.ok:
-                return response.text
+                result_dict = response.json()
         except requests.HTTPError as e:
-            print(e)
+            result_dict["ERROR"] = e
         except requests.ConnectTimeout as e:
-            print("Your connection was timed out.")
+            result_dict["ERROR"] = "Your connection was timed out."
         except requests.ConnectionError as e:
-            print("Make sure you are connected to the internet.")
+            result_dict["ERROR"] = "Make sure you are connected to the internet."
 
-        return 'POST Request failed!'
+        return result_dict
 
 
 if __name__ == '__main__':
