@@ -1,5 +1,6 @@
 import unittest
-from unittest.mock import patch
+import requests
+from unittest.mock import patch, Mock
 from word_counter_client import Word_Counter_Client
 
 class TestWordCounterClient(unittest.TestCase):
@@ -20,11 +21,9 @@ class TestWordCounterClient(unittest.TestCase):
 
     def test_post_word_counter_fail(self):
         with patch('word_counter_client.requests.post') as mock_post:
-            mock_post.return_value.ok = False
-
-            response = self.client.post_request()
-            self.assertTrue("ERROR" in response)
-
+            mock_post.side_effect = Mock(side_effect=requests.HTTPError)
+            
+            self.assertRaises(requests.HTTPError, self.client.post_request)
 
 if __name__ == '__main__':
     unittest.main()
